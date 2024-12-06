@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Parts Store Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bike Parts Store Management</h1>
+        <div class="menu">
+            <button onclick="showSection('recordSale')">Record a Sale</button>
+            <button onclick="showSection('recordPurchase')">Record a Purchase</button>
+            <button onclick="showSection('viewStock')">View Current Stock</button>
+            <button onclick="showSection('searchItem')">Search Item</button>
+            <button onclick="saveToExcel()">Save to Excel</button>
+        </div>
+        <div id="recordSale" class="section" style="display: none;">
+            <h2>Record a Sale</h2>
+            <form id="saleForm">
+                <label for="saleItemType">Item Type:</label>
+                <input type="text" id="saleItemType" name="saleItemType" required oninput="showSuggestions(this, 'type')">
+                <div id="saleItemTypeSuggestions" class="suggestions"></div>
+
+                <label for="saleItemName">Item Name:</label>
+                <input type="text" id="saleItemName" name="saleItemName" required oninput="showSuggestions(this, 'name')">
+                <div id="saleItemNameSuggestions" class="suggestions"></div>
+
+                <label for="saleParty">Party:</label>
+                <input type="text" id="saleParty" name="saleParty" required>
+                <label for="saleQuantity">Quantity Sold:</label>
+                <input type="number" id="saleQuantity" name="saleQuantity" required>
+                <label for="saleRate">Sale Rate per Unit:</label>
+                <input type="number" id="saleRate" name="saleRate" step="0.01" required>
+                <label for="saleDiscount">Discount (%):</label>
+                <input type="number" id="saleDiscount" name="saleDiscount" step="0.01" required>
+                <label for="saleCode">Code/Serial No.:</label>
+                <input type="text" id="saleCode" name="saleCode" required>
+                <button type="submit">Submit Sale</button>
+            </form>
+        </div>
+        <div id="recordPurchase" class="section" style="display: none;">
+            <h2>Record a Purchase</h2>
+            <form id="purchaseForm">
+                <label for="purchaseItemType">Item Type:</label>
+                <input type="text" id="purchaseItemType" name="purchaseItemType" required oninput="showSuggestions(this, 'type')">
+                <div id="purchaseItemTypeSuggestions" class="suggestions"></div>
+
+                <label for="purchaseItemName">Item Name:</label>
+                <input type="text" id="purchaseItemName" name="purchaseItemName" required oninput="showSuggestions(this, 'name')">
+                <div id="purchaseItemNameSuggestions" class="suggestions"></div>
+
+                <label for="purchaseParty">Party:</label>
+                <input type="text" id="purchaseParty" name="purchaseParty" required>
+                <label for="purchaseQuantity">Quantity Purchased:</label>
+                <input type="number" id="purchaseQuantity" name="purchaseQuantity" required>
+                <label for="purchaseRate">Purchase Rate per Unit:</label>
+                <input type="number" id="purchaseRate" name="purchaseRate" step="0.01" required>
+                <label for="purchaseCode">Code/Serial No.:</label>
+                <input type="text" id="purchaseCode" name="purchaseCode" required>
+                <button type="submit">Submit Purchase</button>
+            </form>
+        </div>
+        <div id="viewStock" class="section" style="display: none;">
+            <h2>Current Stock Inventory</h2>
+            <button onclick="viewStock()">Refresh Stock</button>
+            <div id="stockTable"></div>
+        </div>
+        <div id="searchItem" class="section" style="display: none;">
+            <h2>Search Item</h2>
+            <form id="searchForm">
+                <label for="searchItemType">Item Type:</label>
+                <input type="text" id="searchItemType" name="searchItemType">
+                <label for="searchItemName">Item Name:</label>
+                <input type="text" id="searchItemName" name="searchItemName">
+                <label for="searchCode">Code/Serial No.:</label>
+                <input type="text" id="searchCode" name="searchCode">
+                <button type="submit">Search</button>
+            </form>
+            <div id="searchResults"></div>
+        </div>
+        <div id="saleRecords" class="section" style="display: none;">
+            <h2>Sale Records</h2>
+            <div id="saleRecordsTable"></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+
+    <button onclick="showSection('retailerBilling')">Retailer Billing</button>
+
+<div id="retailerBilling" class="section" style="display: none;">
+    <h2>Retailer Billing</h2>
+    <form id="billingForm">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+
+        <label for="billingDate">Date:</label>
+        <input type="date" id="billingDate" name="billingDate" required>
+
+        <label for="billingItems">Select Items:</label>
+        <div id="billingItemsContainer"></div>
+
+        <button type="button" onclick="addBillingItem()">Add Item</button>
+        <button type="submit">Generate Bill</button>
+    </form>
+
+    <h3>Generated Bill</h3>
+    <div id="generatedBill"></div>
+    <button onclick="saveBillAsExcel()">Save Bill as Excel</button>
+</div>
+
+<div id="retailerBilling" class="section" style="display: none;">
+    <h2>Retailer Billing</h2>
+    <form id="billingForm">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+
+        <label for="customerAddress">Customer Address:</label>
+        <input type="text" id="customerAddress" name="customerAddress" required>
+
+        <label for="billingDate">Date:</label>
+        <input type="date" id="billingDate" name="billingDate" required>
+
+        <label for="billingItems">Select Items:</label>
+        <div id="billingItemsContainer"></div>
+
+        <button type="button" onclick="addBillingItem()">Add Item</button>
+        <button type="submit">Generate Bill</button>
+    </form>
+
+    <h3>Generated Bill</h3>
+    <div id="generatedBill"></div>
+    <button onclick="saveBillAsExcel()">Save Bill as Excel</button>
+</div>
+
+
+</body>
+</html>
